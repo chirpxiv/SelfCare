@@ -27,7 +27,7 @@ namespace SelfCare {
 
 		public DismissMode DismissMode { get; set; } = DismissMode.OnClick;
 		public ImGuiMouseButton DismissButton { get; set; } = ImGuiMouseButton.Right;
-		public bool DismissButtonDouble { get; set; } = false;
+		public uint DismissTimer { get; set; } = 10 * 1000;
 
 		public bool DisableInCombat = true;
 		public bool DisableInCutscene = true;

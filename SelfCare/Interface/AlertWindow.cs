@@ -53,10 +53,9 @@ namespace SelfCare.Interface {
 		public override void Draw() {
 			var active = false;
 
-			var isClicked = ImGui.IsWindowHovered() && (SelfCare.Config.DismissButtonDouble
-				? ImGui.IsMouseDoubleClicked(SelfCare.Config.DismissButton)
-				: ImGui.IsMouseClicked(SelfCare.Config.DismissButton));
-			var shouldClose = SelfCare.Config.DismissMode == DismissMode.OnClick && isClicked;
+			var shouldClose = false;
+			if (SelfCare.Config.DismissMode == DismissMode.OnClick)
+				shouldClose = ImGui.IsWindowHovered() && ImGui.IsMouseClicked(SelfCare.Config.DismissButton);
 
 			for (var i = 0; i < Alerts.Count; i++) {
 				var alert = Alerts[i];

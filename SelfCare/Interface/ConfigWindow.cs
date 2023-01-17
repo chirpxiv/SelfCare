@@ -7,6 +7,7 @@ using Dalamud.Interface.Windowing;
 
 using SelfCare.Alerts;
 using SelfCare.Extensions;
+using SelfCare.Interface.Components;
 
 namespace SelfCare.Interface {
 	public class ConfigWindow : Window {
@@ -64,16 +65,8 @@ namespace SelfCare.Interface {
 
 			ImGui.EndGroup();
 
-			ImGui.SameLine(ImGui.GetItemRectSize().X + 25);
-
-			ImGui.BeginGroup();
-
 			if (Config.DismissMode == DismissMode.OnClick) {
-				var two = Config.DismissButtonDouble;
-				if (ImGui.Checkbox("Double Click", ref two))
-					Config.DismissButtonDouble = two;
-
-				ImGui.PushItemWidth(ImGui.GetContentRegionAvail().X * 0.5f);
+				ImGui.PushItemWidth(ImGui.GetItemRectSize().X);
 
 				if (ImGui.BeginCombo("Button", $"{Config.DismissButton} Click")) {
 					foreach (var val in ButtonValues) {
@@ -84,9 +77,11 @@ namespace SelfCare.Interface {
 				}
 
 				ImGui.PopItemWidth();
+			} else if (Config.DismissMode == DismissMode.OnTimer) {
+				var time = (int)Config.DismissTimer;
+				if (TimeInput.Draw("DismissTimer", ref time))
+					Config.DismissTimer = (uint)time;
 			}
-
-			ImGui.EndGroup();
 
 			ImGuiExtensions.Spacing(2);
 
