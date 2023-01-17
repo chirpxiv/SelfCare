@@ -17,7 +17,9 @@ namespace SelfCare.Interface {
 		public AlertWindow() : base(
 			"SelfCare Alert",
 			ImGuiWindowFlags.AlwaysAutoResize ^ ImGuiWindowFlags.NoDecoration
-		) { }
+		) {
+			RespectCloseHotkey = false;
+		}
 
 		public override void PreOpenCheck() {
 			IsConfiguring = SelfCare.Windows.GetWindow<ConfigWindow>()?.IsOpen ?? false;
