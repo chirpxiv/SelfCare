@@ -1,5 +1,5 @@
 ﻿using System;
-
+using Dalamud.Logging;
 using ImGuiNET;
 
 namespace SelfCare.Interface.Components {
@@ -25,6 +25,9 @@ namespace SelfCare.Interface.Components {
 			result |= ImGui.InputInt($"s##S_{id}", ref sec, 0);
 
 			ImGui.PopItemWidth();
+
+			if (result)
+				result &= !ImGui.IsItemActive();
 
 			if (result)
 				val = ((hr * 3600) + (min * 60) + sec) * 1000;
