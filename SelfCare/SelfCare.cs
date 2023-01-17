@@ -24,6 +24,8 @@ namespace SelfCare {
 			Services.Interface.UiBuilder.DisableGposeUiHide = true;
 			Services.Interface.UiBuilder.Draw += Windows.Draw;
 
+			Services.Interface.UiBuilder.OpenConfigUi += ToggleConfig;
+
 			Windows.AddWindow(new AlertWindow());
 			Windows.AddWindow(new ConfigWindow());
 
@@ -39,7 +41,10 @@ namespace SelfCare {
 		}
 
 		private void OnCommand(string _, string arguments)
-			=> Windows.GetWindow<ConfigWindow>()?.Show();
+			=> ToggleConfig();
+
+		private void ToggleConfig()
+			=> Windows.GetWindow<ConfigWindow>()?.Toggle();
 
 		internal static string GetVersion()
 			=> typeof(SelfCare).Assembly.GetName().Version!.ToString(fieldCount: 3);

@@ -29,6 +29,9 @@ namespace SelfCare {
 		public ImGuiMouseButton DismissButton { get; set; } = ImGuiMouseButton.Right;
 		public bool DismissButtonDouble { get; set; } = false;
 
+		public bool DisableInCombat = true;
+		public bool DisableInCutscene = true;
+
 		public UiColor BgColor { get; set; } = new(ImGuiCol.WindowBg);
 		public UiColor FontColor { get; set; } = new(ImGuiCol.Text);
 

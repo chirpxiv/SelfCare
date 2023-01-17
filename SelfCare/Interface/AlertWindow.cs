@@ -4,6 +4,7 @@ using ImGuiNET;
 
 using Dalamud.Interface;
 using Dalamud.Interface.Windowing;
+using Dalamud.Game.ClientState.Conditions;
 
 using SelfCare.Alerts;
 using SelfCare.Extensions;
@@ -26,6 +27,13 @@ namespace SelfCare.Interface {
 			if (IsConfiguring && !IsOpen) IsOpen = true;
 
 			var canOpen = true;
+			canOpen &= !(SelfCare.Config.DisableInCutscene && (
+				Services.Condition[ConditionFlag.WatchingCutscene]
+				|| Services.Condition[ConditionFlag.OccupiedInCutSceneEvent]
+				|| Services.Condition[ConditionFlag.OccupiedInQuestEvent]
+			));
+			canOpen &= !(SelfCare.Config.DisableInCombat && Services.Condition[ConditionFlag.InCombat]);
+
 			if (!IsOpen && canOpen) {
 				foreach (var alert in Alerts) {
 					if (alert.HasTimerElapsed) {

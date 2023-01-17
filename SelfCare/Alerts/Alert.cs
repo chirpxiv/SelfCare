@@ -5,8 +5,6 @@ using Dalamud.Interface;
 namespace SelfCare.Alerts {
 	// I'm over-engineering this but it's far too late to go back
 
-	// TODO: Wait for battle/cutscene to end
-
 	public class Alert {
 		public FontAwesomeIcon Icon;
 

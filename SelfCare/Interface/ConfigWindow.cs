@@ -26,9 +26,7 @@ namespace SelfCare.Interface {
 
 		public ConfigWindow() : base(
 			"SelfCare"
-		) {
-
-		}
+		) { }
 
 		// Methods
 
@@ -104,6 +102,20 @@ namespace SelfCare.Interface {
 				}
 				ImGui.EndCombo();
 			}
+
+			ImGuiExtensions.Spacing(2);
+
+			// Disable in combat / cutscene
+
+			var noCutscene = Config.DisableInCutscene;
+			if (ImGui.Checkbox("Disabled in Cutscene", ref noCutscene))
+				Config.DisableInCutscene = noCutscene;
+
+			ImGui.SameLine();
+
+			var noCombat = Config.DisableInCombat;
+			if (ImGui.Checkbox("Disabled in Combat", ref noCombat))
+				Config.DisableInCombat = noCombat;
 
 			ImGuiExtensions.Spacing(2);
 
