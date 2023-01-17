@@ -1,28 +1,26 @@
-﻿using System.Numerics;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using ImGuiNET;
 
 using Dalamud.Interface;
 using Dalamud.Interface.Windowing;
 
-using HealthCheck.Alerts;
-using HealthCheck.Alerts;
-using HealthCheck.Extensions;
+using SelfCare.Alerts;
+using SelfCare.Extensions;
 
-namespace HealthCheck.Interface {
+namespace SelfCare.Interface {
 	public class AlertWindow : Window {
-		private List<Alert> Alerts = new() { HealthCheck.Config.Posture, HealthCheck.Config.Hydrate };
+		private List<Alert> Alerts = new() { SelfCare.Config.Posture, SelfCare.Config.Hydrate };
 
 		private bool IsConfiguring = false;
 
 		public AlertWindow() : base(
-			"HealthCheck Alert",
+			"SelfCare Alert",
 			ImGuiWindowFlags.AlwaysAutoResize ^ ImGuiWindowFlags.NoDecoration
 		) { }
 
 		public override void PreOpenCheck() {
-			IsConfiguring = HealthCheck.Windows.GetWindow<ConfigWindow>()?.IsOpen ?? false;
+			IsConfiguring = SelfCare.Windows.GetWindow<ConfigWindow>()?.IsOpen ?? false;
 			if (IsConfiguring && !IsOpen) IsOpen = true;
 
 			var canOpen = true;
@@ -39,16 +37,16 @@ namespace HealthCheck.Interface {
 
 		public override void PreDraw() {
 			base.PreDraw();
-			HealthCheck.Config.BgColor.Push();
+			SelfCare.Config.BgColor.Push();
 		}
 
 		public override void Draw() {
 			var active = false;
 
-			var isClicked = ImGui.IsWindowHovered() && (HealthCheck.Config.DismissButtonDouble
-				? ImGui.IsMouseDoubleClicked(HealthCheck.Config.DismissButton)
-				: ImGui.IsMouseClicked(HealthCheck.Config.DismissButton));
-			var shouldClose = HealthCheck.Config.DismissMode == DismissMode.OnClick && isClicked;
+			var isClicked = ImGui.IsWindowHovered() && (SelfCare.Config.DismissButtonDouble
+				? ImGui.IsMouseDoubleClicked(SelfCare.Config.DismissButton)
+				: ImGui.IsMouseClicked(SelfCare.Config.DismissButton));
+			var shouldClose = SelfCare.Config.DismissMode == DismissMode.OnClick && isClicked;
 
 			for (var i = 0; i < Alerts.Count; i++) {
 				var alert = Alerts[i];
@@ -66,7 +64,7 @@ namespace HealthCheck.Interface {
 
 					//DrawReminder(alert.Icon, alert.Text);
 
-					HealthCheck.Config.FontColor.Draw(() => DrawReminder(alert.Icon, alert.Text));
+					SelfCare.Config.FontColor.Draw(() => DrawReminder(alert.Icon, alert.Text));
 
 					if (i < Alerts.Count - 1)
 						ImGui.Spacing();
@@ -79,11 +77,11 @@ namespace HealthCheck.Interface {
 
 		public override void PostDraw() {
 			base.PostDraw();
-			HealthCheck.Config.BgColor.Pop();
+			SelfCare.Config.BgColor.Pop();
 		}
 
 		private static void DrawReminder(FontAwesomeIcon icon, string text) {
-			var cfg = HealthCheck.Config;
+			var cfg = SelfCare.Config;
 
 			ImGui.PushFont(UiBuilder.IconFont);
 			ImGui.Text(icon.ToIconString());

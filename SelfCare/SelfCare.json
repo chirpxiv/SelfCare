@@ -1,17 +1,17 @@
 {
 	"Author": "Chirp",
-	"Name": "HealthCheck",
+	"Name": "SelfCare",
 	"Description": "Configurable reminders to drink water and maintain a healthy posture.",
-	"InternalName": "HealthCheck",
+	"InternalName": "SelfCare",
 	"AssemblyVersion": "0.1.0.0",
-	"RepoUrl": "https://github.com/chirpxiv/HealthCheck",
+	"RepoUrl": "https://github.com/chirpxiv/SelfCare",
 	"ApplicableVersion": "any",
 	"DalamudApiLevel": 8,
 	"Tags": [
-		"HealthCheck",
+		"SelfCare",
 		"posture",
 		"hydrate",
 		"water"
 	],
-	"IconUrl": "https://github.com/chirpxiv/HealthCheck/raw/main/icon.png"
+	"IconUrl": "https://github.com/chirpxiv/SelfCare/raw/main/icon.png"
 }

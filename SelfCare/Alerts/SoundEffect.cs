@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace HealthCheck.Alerts {
+namespace SelfCare.Alerts {
 	public enum SoundEffect {
 		None = 0,
 		//Error = 7,
@@ -44,7 +44,7 @@ namespace HealthCheck.Alerts {
 			=> EffectToName.TryGetValue(sound, out var name) ? name : sound.ToString();
 
 		public static void PlayCurrent() {
-			var sfx = HealthCheck.Config.SoundEffect;
+			var sfx = SelfCare.Config.SoundEffect;
 			if (sfx != SoundEffect.None)
 				Invoke(sfx, 0, 0);
 		}

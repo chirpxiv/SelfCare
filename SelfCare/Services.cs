@@ -8,7 +8,7 @@ using Dalamud.Game.ClientState.Objects;
 
 using FFXIVClientStructs.FFXIV.Client.Game.Control;
 
-namespace HealthCheck {
+namespace SelfCare {
 	internal class Services {
 		[PluginService] internal static DalamudPluginInterface Interface { get; set; } = null!;
 		[PluginService] internal static CommandManager CommandManager { get; set; } = null!;

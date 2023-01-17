@@ -7,17 +7,17 @@ using Dalamud.Logging;
 using Dalamud.Interface;
 using Dalamud.Configuration;
 
-using HealthCheck.Alerts;
-using HealthCheck.Extensions;
-using HealthCheck.Interface;
+using SelfCare.Alerts;
+using SelfCare.Extensions;
+using SelfCare.Interface;
 
-namespace HealthCheck {
+namespace SelfCare {
 	[Serializable]
 	public class Configuration : IPluginConfiguration {
 		public const int _ConfigVer = 0;
 
 		public int Version { get; set; } = _ConfigVer;
-		public string PluginVersion { get; set; } = HealthCheck.GetVersion();
+		public string PluginVersion { get; set; } = SelfCare.GetVersion();
 
 		public bool IsFirstTime { get; set; } = true;
 
@@ -43,7 +43,7 @@ namespace HealthCheck {
 			if (Version != _ConfigVer)
 				Upgrade();
 
-			var curVer = HealthCheck.GetVersion();
+			var curVer = SelfCare.GetVersion();
 			if (PluginVersion != curVer) {
 				// TODO: Changelog?
 				PluginVersion = curVer;
@@ -51,7 +51,7 @@ namespace HealthCheck {
 
 			if (IsFirstTime) {
 				IsFirstTime = false;
-				HealthCheck.Windows.GetWindow<ConfigWindow>()?.Show();
+				SelfCare.Windows.GetWindow<ConfigWindow>()?.Show();
 			}
 		}
 
@@ -68,12 +68,12 @@ namespace HealthCheck {
 
 		public static void LoadConfig() {
 			try {
-				HealthCheck.Config = Services.Interface.GetPluginConfig() as Configuration ?? new();
+				SelfCare.Config = Services.Interface.GetPluginConfig() as Configuration ?? new();
 			} catch (Exception e) {
 				PluginLog.Error("Failed to load config. Settings have been reset.", e);
-				HealthCheck.Config = new();
+				SelfCare.Config = new();
 			}
-			HealthCheck.Config.Init();
+			SelfCare.Config.Init();
 		}
 	}
 

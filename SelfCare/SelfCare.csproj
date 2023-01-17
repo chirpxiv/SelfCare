@@ -5,7 +5,7 @@
     <Version>0.1.0</Version>
     <Description></Description>
     <Copyright>MIT License</Copyright>
-    <PackageProjectUrl>https://github.com/chirpxiv/HealthCheck</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/chirpxiv/SelfCare</PackageProjectUrl>
   </PropertyGroup>
 
   <PropertyGroup>

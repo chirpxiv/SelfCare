@@ -5,10 +5,10 @@ using ImGuiNET;
 
 using Dalamud.Interface.Windowing;
 
-using HealthCheck.Alerts;
-using HealthCheck.Extensions;
+using SelfCare.Alerts;
+using SelfCare.Extensions;
 
-namespace HealthCheck.Interface {
+namespace SelfCare.Interface {
 	public class ConfigWindow : Window {
 		private SoundEffect[] SoundEffectValues = Enum.GetValues<SoundEffect>();
 		private ImGuiMouseButton[] ButtonValues = {
@@ -18,14 +18,14 @@ namespace HealthCheck.Interface {
 		};
 
 		private Configuration Config {
-			get => HealthCheck.Config;
-			set => HealthCheck.Config = value;
+			get => SelfCare.Config;
+			set => SelfCare.Config = value;
 		}
 
 		// Constructors
 
 		public ConfigWindow() : base(
-			"HealthCheck"
+			"SelfCare"
 		) {
 
 		}
@@ -33,7 +33,7 @@ namespace HealthCheck.Interface {
 		// Methods
 
 		public override void Draw() {
-			if (ImGui.BeginTabBar("HealthCheck Tabs")) {
+			if (ImGui.BeginTabBar("SelfCare Tabs")) {
 				DrawTab("Popup", PopupTab);
 				ImGui.EndTabBar();
 			}
