@@ -103,7 +103,7 @@ namespace SelfCare.Interface {
 
 			// Disable in combat / cutscene
 
-			ImGui.Checkbox("Disabled in cutscene", ref Config.DisableInCutscene);
+			ImGui.Checkbox("Disabled in cutscenes", ref Config.DisableInCutscene);
 
 			ImGui.SameLine();
 

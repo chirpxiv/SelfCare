@@ -8,8 +8,6 @@ using Dalamud.Interface;
 using Dalamud.Configuration;
 
 using SelfCare.Alerts;
-using SelfCare.Extensions;
-using SelfCare.Interface;
 
 namespace SelfCare {
 	[Serializable]
@@ -19,6 +17,7 @@ namespace SelfCare {
 		public int Version { get; set; } = _ConfigVer;
 		public string PluginVersion = SelfCare.GetVersion();
 
+		internal bool _IsFirstTime_;
 		public bool IsFirstTime = true;
 
 		// General
@@ -27,7 +26,7 @@ namespace SelfCare {
 
 		public DismissMode DismissMode = DismissMode.OnClick;
 		public ImGuiMouseButton DismissButton = ImGuiMouseButton.Right;
-		public uint DismissTimer = 10 * 1000;
+		public uint DismissTimer = 10 * 1000; // Default: 10s
 
 		public bool DisableInCombat = true;
 		public bool DisableInCutscene = true;
@@ -54,10 +53,11 @@ namespace SelfCare {
 				PluginVersion = curVer;
 			}
 
-			if (IsFirstTime) {
+			PluginLog.Information($"Init {IsFirstTime}");
+
+			_IsFirstTime_ = IsFirstTime;
+			if (IsFirstTime)
 				IsFirstTime = false;
-				SelfCare.Windows.GetWindow<ConfigWindow>()?.Show();
-			}
 		}
 
 		public void Save() => Services.Interface.SavePluginConfig(this);

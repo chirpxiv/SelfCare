@@ -32,7 +32,11 @@ namespace SelfCare {
 
 			var alertWindow = new AlertWindow();
 			Windows.AddWindow(alertWindow);
-			Windows.AddWindow(new ConfigWindow());
+
+			var cfgWindow = new ConfigWindow();
+			Windows.AddWindow(cfgWindow);
+			if (Config._IsFirstTime_)
+				cfgWindow.Show();
 
 			Services.CommandManager.AddHandler(CommandName, new CommandInfo(OnCommand) {
 				HelpMessage = $"Show the {Name} configuration window."
