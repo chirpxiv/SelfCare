@@ -37,6 +37,8 @@ namespace SelfCare {
 		public void Dispose() {
 			Windows.RemoveAllWindows();
 
+			Config.Save();
+
 			Services.CommandManager.RemoveHandler(CommandName);
 		}
 

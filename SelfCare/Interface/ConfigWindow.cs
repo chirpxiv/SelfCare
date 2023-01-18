@@ -167,5 +167,12 @@ namespace SelfCare.Interface {
 
 			return result;
 		}
+
+		// Save on close
+
+		public override void OnClose() {
+			base.OnClose();
+			Config.Save();
+		}
 	}
 }
