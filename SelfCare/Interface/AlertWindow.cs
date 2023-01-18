@@ -9,6 +9,7 @@ using Dalamud.Game.ClientState.Conditions;
 
 using SelfCare.Alerts;
 using SelfCare.Extensions;
+using Dalamud.Game.ClientState;
 
 namespace SelfCare.Interface {
 	public class AlertWindow : Window {
@@ -27,7 +28,9 @@ namespace SelfCare.Interface {
 			IsConfiguring = SelfCare.Windows.GetWindow<ConfigWindow>()?.IsOpen ?? false;
 			if (IsConfiguring && !IsOpen) IsOpen = true;
 
-			var canOpen = true;
+			var canOpen = Services.ClientState.IsLoggedIn;
+			if (!canOpen) IsOpen = false;
+
 			// Disable in cutscene
 			canOpen &= !(SelfCare.Config.DisableInCutscene && (
 				Services.Condition[ConditionFlag.WatchingCutscene]
