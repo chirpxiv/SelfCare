@@ -8,7 +8,7 @@ namespace SelfCare.Alerts {
 		//Error = 7,
 		Se1 = 37,
 		//Unk1 = 36,
-		Se2 = 38, // ...
+		Se2 = 38,
 		Se3 = 39,
 		Se4 = 40,
 		Se5 = 41,
@@ -60,6 +60,9 @@ namespace SelfCare.Alerts {
 		// Init
 
 		public static void Init() {
+			// Thanks Ottermandias -
+			// https://github.com/Ottermandias/GatherBuddy/blob/main/GatherBuddy/SeFunctions/PlaySound.cs
+
 			var soundAddr = Services.SigScanner.ScanText("E8 ?? ?? ?? ?? 4D 39 BE");
 			Invoke = Marshal.GetDelegateForFunctionPointer<PlaySoundDelegate>(soundAddr);
 		}

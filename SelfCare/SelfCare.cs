@@ -1,6 +1,10 @@
-﻿using Dalamud.Plugin;
+﻿using System.Collections.Generic;
+
+using Dalamud.Plugin;
 using Dalamud.Game.Command;
 using Dalamud.Interface.Windowing;
+using Dalamud.Game.Text.SeStringHandling;
+using Dalamud.Game.Text.SeStringHandling.Payloads;
 
 using SelfCare.Interface;
 using SelfCare.Extensions;
@@ -26,12 +30,31 @@ namespace SelfCare {
 
 			Services.Interface.UiBuilder.OpenConfigUi += ToggleConfig;
 
-			Windows.AddWindow(new AlertWindow());
+			var alertWindow = new AlertWindow();
+			Windows.AddWindow(alertWindow);
 			Windows.AddWindow(new ConfigWindow());
 
 			Services.CommandManager.AddHandler(CommandName, new CommandInfo(OnCommand) {
 				HelpMessage = $"Show the {Name} configuration window."
 			});
+
+			if (Config.PrintToChat) {
+				var ct = alertWindow.Alerts.FindAll(a => a.Enabled).Count;
+
+				var msg = new SeString(new List<Payload>() {
+					new TextPayload($"[{Name}] "),
+					new TextPayload(string.Format(
+						"You have {0} alert{1} enabled. Type ",
+						ct, ct == 1 ? "" : "s"
+					)),
+					new UIForegroundPayload(500),
+					new TextPayload(CommandName),
+					new UIForegroundPayload(0),
+					new TextPayload(" to configure them.")
+				});
+				
+				Services.ChatGui.Print(msg);
+			}
 		}
 
 		public void Dispose() {

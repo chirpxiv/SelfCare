@@ -17,28 +17,30 @@ namespace SelfCare {
 		public const int _ConfigVer = 0;
 
 		public int Version { get; set; } = _ConfigVer;
-		public string PluginVersion { get; set; } = SelfCare.GetVersion();
+		public string PluginVersion = SelfCare.GetVersion();
 
-		public bool IsFirstTime { get; set; } = true;
+		public bool IsFirstTime = true;
 
 		// General
 
-		public SoundEffect SoundEffect { get; set; } = SoundEffect.Se9;
+		public SoundEffect SoundEffect = SoundEffect.Se9;
 
-		public DismissMode DismissMode { get; set; } = DismissMode.OnClick;
-		public ImGuiMouseButton DismissButton { get; set; } = ImGuiMouseButton.Right;
-		public uint DismissTimer { get; set; } = 10 * 1000;
+		public DismissMode DismissMode = DismissMode.OnClick;
+		public ImGuiMouseButton DismissButton = ImGuiMouseButton.Right;
+		public uint DismissTimer = 10 * 1000;
 
 		public bool DisableInCombat = true;
 		public bool DisableInCutscene = true;
 
-		public UiColor BgColor { get; set; } = new(ImGuiCol.WindowBg);
-		public UiColor FontColor { get; set; } = new(ImGuiCol.Text);
+		public bool PrintToChat = true;
+
+		public UiColor BgColor = new(ImGuiCol.WindowBg);
+		public UiColor FontColor = new(ImGuiCol.Text);
 
 		// Alerts
 
-		public Alert Posture = new(FontAwesomeIcon.Chair, "Remember to check your posture!"); // TOOD: 45m
-		public Alert Hydrate = new(FontAwesomeIcon.GlassWhiskey, "Remember to hydrate!"); // TODO: 1h
+		public Alert Hydrate = new(FontAwesomeIcon.GlassWhiskey, "Remember to hydrate!", 60 * 60 * 1000); // Default: 1h
+		public Alert Posture = new(FontAwesomeIcon.Chair, "Remember to check your posture!", 30 * 60 * 1000); // Default: 30m
 
 		// Methods
 
@@ -83,8 +85,8 @@ namespace SelfCare {
 	public class UiColor {
 		internal ImGuiCol ImGuiCol;
 
-		public bool Active { get; set; } = false;
-		public Vector4? Color { get; set; }
+		public bool Active = false;
+		public Vector4? Color = null;
 
 		public UiColor(ImGuiCol col) {
 			ImGuiCol = col;

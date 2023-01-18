@@ -12,7 +12,7 @@ using SelfCare.Extensions;
 
 namespace SelfCare.Interface {
 	public class AlertWindow : Window {
-		private List<Alert> Alerts = new() { SelfCare.Config.Posture, SelfCare.Config.Hydrate };
+		internal List<Alert> Alerts = new() { SelfCare.Config.Hydrate, SelfCare.Config.Posture }; // TODO: Streamline this
 
 		private bool IsConfiguring = false;
 
@@ -62,36 +62,41 @@ namespace SelfCare.Interface {
 
 			for (var i = 0; i < Alerts.Count; i++) {
 				var alert = Alerts[i];
+				if (!alert.Enabled) continue;
 
 				var visible = alert.IsVisible || IsConfiguring;
 
-				if (alert.HasTimerElapsed) {
-					visible = true; 
-					alert.IsVisible = true;
-					alert.VisibleSince = DateTime.Now;
-					alert.HasTimerElapsed = false;
-				} else if (!visible) continue;
+				if (!IsConfiguring) {
+					if (alert.HasTimerElapsed) {
+						visible = true;
+						alert.Trigger();
+					} else if (!visible) continue;
 
-				if (SelfCare.Config.DismissMode == DismissMode.OnTimer)
-					shouldClose = (DateTime.Now - alert.VisibleSince).TotalMilliseconds >= SelfCare.Config.DismissTimer;
+					if (SelfCare.Config.DismissMode == DismissMode.OnTimer)
+						shouldClose = (DateTime.Now - alert.VisibleSince).TotalMilliseconds >= SelfCare.Config.DismissTimer;
 
-				if (shouldClose) {
-					alert.IsVisible = false;
-					alert.RestartTimer();
+					if (shouldClose) {
+						alert.IsVisible = false;
+						alert.RestartTimer();
+					}
 				}
 
 				if (visible) {
+					if (active)
+						ImGui.Spacing();
+
 					active = true;
 
 					SelfCare.Config.FontColor.Draw(() => DrawReminder(alert.Icon, alert.Text));
-
-					if (i < Alerts.Count - 1)
-						ImGui.Spacing();
 				}
 			}
 
-			if (!active)
-				IsOpen = false;
+			if (!active) {
+				if (IsConfiguring)
+					ImGui.Text("Reminders will show up here when enabled.");
+				else
+					IsOpen = false;
+			}
 		}
 
 		public override void PostDraw() {

@@ -33,7 +33,8 @@ namespace SelfCare.Interface {
 
 		public override void Draw() {
 			if (ImGui.BeginTabBar("SelfCare Tabs")) {
-				DrawTab("Popup", PopupTab);
+				DrawTab("General", GeneralTab);
+				DrawTab("Reminders", RemindersTab);
 				ImGui.EndTabBar();
 			}
 		}
@@ -45,9 +46,9 @@ namespace SelfCare.Interface {
 			}
 		}
 
-		// "Popup" config tab
+		// "General" config tab
 
-		private unsafe void PopupTab() {
+		private unsafe void GeneralTab() {
 			ImGui.Spacing();
 
 			ImGui.Text("Alerts");
@@ -56,7 +57,7 @@ namespace SelfCare.Interface {
 
 			// Dismissal
 
-			ImGui.Text("Dismiss Method:");
+			ImGui.Text("Dismiss method:");
 
 			ImGui.BeginGroup();
 
@@ -102,15 +103,17 @@ namespace SelfCare.Interface {
 
 			// Disable in combat / cutscene
 
-			var noCutscene = Config.DisableInCutscene;
-			if (ImGui.Checkbox("Disabled in Cutscene", ref noCutscene))
-				Config.DisableInCutscene = noCutscene;
+			ImGui.Checkbox("Disabled in cutscene", ref Config.DisableInCutscene);
 
 			ImGui.SameLine();
 
-			var noCombat = Config.DisableInCombat;
-			if (ImGui.Checkbox("Disabled in Combat", ref noCombat))
-				Config.DisableInCombat = noCombat;
+			ImGui.Checkbox("Disabled in combat", ref Config.DisableInCombat);
+
+			// Print to chat
+
+			ImGui.Spacing();
+
+			ImGui.Checkbox("Print reminders to chat", ref Config.PrintToChat);
 
 			ImGuiExtensions.Spacing(2);
 
@@ -120,15 +123,11 @@ namespace SelfCare.Interface {
 			ImGui.Separator();
 			ImGui.Spacing();
 
-			var fontCol = Config.FontColor;
-			if (DrawUiColor("Override font color", "##FontCol", ref fontCol))
-				Config.FontColor = fontCol;
+			DrawUiColor("Override font color", "##FontCol", ref Config.FontColor);
 
 			ImGui.Spacing();
 
-			var bgCol = Config.BgColor;
-			if (DrawUiColor("Override background color", "##BgCol", ref bgCol))
-				Config.BgColor = bgCol;
+			DrawUiColor("Override background color", "##BgCol", ref Config.BgColor);
 		}
 
 		private void DrawDismissMethod(string label, DismissMode mode) {
@@ -139,16 +138,14 @@ namespace SelfCare.Interface {
 		private unsafe bool DrawUiColor(string activeText, string editText, ref UiColor data) {
 			var result = false;
 
-			var active = data.Active;
-			if (ImGui.Checkbox(activeText, ref active))
-				data.Active = active;
+			ImGui.Checkbox(activeText, ref data.Active);
 
 			if (data.Color == null) {
 				result = true;
 				data.GetColorFromStyle();
 			}
 
-			ImGui.BeginDisabled(!active);
+			ImGui.BeginDisabled(!data.Active);
 
 			var col = (Vector4)data.Color!;
 			if (ImGui.ColorEdit4(editText, ref col)) {
@@ -166,6 +163,36 @@ namespace SelfCare.Interface {
 			ImGui.EndDisabled();
 
 			return result;
+		}
+
+		// "Reminders" Tab
+
+		private void RemindersTab() {
+			ImGui.Spacing();
+			DrawReminder("Hydration", ref Config.Hydrate);
+			ImGuiExtensions.Spacing(2);
+			DrawReminder("Posture Check", ref Config.Posture);
+		}
+
+		private void DrawReminder(string label, ref Alert alert) {
+			ImGui.Text(label);
+			ImGui.Separator();
+			ImGui.Spacing();
+
+			ImGui.Checkbox($"Enabled##Toggle_{label}", ref alert.Enabled);
+
+			ImGui.Spacing();
+
+			ImGui.Text("Remind me every: ");
+			ImGui.SameLine();
+
+			var interval = alert.Interval;
+			if (TimeInput.Draw($"##Time_{label}", ref interval, 1000))
+				alert.Interval = interval;
+
+			ImGui.Spacing();
+
+			ImGui.InputTextWithHint($"Text##Text_{label}", "Remember to...", ref alert.Text, 200);
 		}
 
 		// Save on close

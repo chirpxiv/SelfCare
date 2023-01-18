@@ -4,44 +4,56 @@ using System.Timers;
 using Dalamud.Interface;
 
 namespace SelfCare.Alerts {
-	// I'm over-engineering this but it's far too late to go back
-
 	public class Alert {
 		public FontAwesomeIcon Icon;
 
 		// Configurable
 
-		public string Text { get; set; } = "";
+		public bool Enabled = true;
 
-		private int _Interval = 30000; // TODO: Configurable
+		public string Text = "";
+
+		private int _Interval;
 		public int Interval {
 			get => _Interval;
-			internal set {
+			set {
 				_Interval = value;
-				Timer.Interval = value;
+				if (Timer != null) Timer.Interval = value;
 			}
 		}
 
 		// Timer
 
 		internal Timer Timer;
-		internal bool HasTimerElapsed = true;
+		internal bool HasTimerElapsed = false;
 
 		internal DateTime VisibleSince;
 		public bool IsVisible = false;
 
 		// Constructor
 
-		public Alert(FontAwesomeIcon icon, string text) {
+		public Alert(FontAwesomeIcon icon, string text, int interval) {
 			Icon = icon;
 			Text = text;
+
+			_Interval = interval;
 
 			Timer = new();
 			Timer.Interval = Interval;
 			Timer.Elapsed += OnTimerElapsed;
+			Timer.Start();
 		}
 
 		// Methods
+
+		public void Trigger() {
+			IsVisible = true;
+			VisibleSince = DateTime.Now;
+			HasTimerElapsed = false;
+
+			if (SelfCare.Config.PrintToChat)
+				Services.ChatGui.Print($"[SelfCare] {Text}");
+		}
 
 		public void RestartTimer() {
 			HasTimerElapsed = false;
