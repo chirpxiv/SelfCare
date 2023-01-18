@@ -15,6 +15,7 @@ namespace SelfCare.Interface {
 	public class AlertWindow : Window {
 		internal List<Alert> Alerts = new() { SelfCare.Config.Hydrate, SelfCare.Config.Posture }; // TODO: Streamline this
 
+		private bool ShouldHide = false;
 		private bool IsConfiguring = false;
 
 		public AlertWindow() : base(
@@ -29,7 +30,7 @@ namespace SelfCare.Interface {
 			if (IsConfiguring && !IsOpen) IsOpen = true;
 
 			var canOpen = Services.ClientState.IsLoggedIn;
-			if (!canOpen) IsOpen = false;
+			ShouldHide = !canOpen;
 
 			// Disable in cutscene
 			canOpen &= !(SelfCare.Config.DisableInCutscene && (
@@ -55,6 +56,8 @@ namespace SelfCare.Interface {
 			base.PreDraw();
 			SelfCare.Config.BgColor.Push();
 		}
+
+		public override bool DrawConditions() => !ShouldHide;
 
 		public override void Draw() {
 			var active = false;
@@ -108,8 +111,6 @@ namespace SelfCare.Interface {
 		}
 
 		private static void DrawReminder(FontAwesomeIcon icon, string text) {
-			var cfg = SelfCare.Config;
-
 			ImGui.PushFont(UiBuilder.IconFont);
 			ImGui.Text(icon.ToIconString());
 			ImGui.PopFont();
