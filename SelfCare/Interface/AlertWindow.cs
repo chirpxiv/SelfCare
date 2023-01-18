@@ -10,6 +10,7 @@ using Dalamud.Game.ClientState.Conditions;
 using SelfCare.Alerts;
 using SelfCare.Extensions;
 using Dalamud.Game.ClientState;
+using Dalamud.Logging;
 
 namespace SelfCare.Interface {
 	public class AlertWindow : Window {
@@ -28,6 +29,10 @@ namespace SelfCare.Interface {
 		public override void PreOpenCheck() {
 			IsConfiguring = SelfCare.Windows.GetWindow<ConfigWindow>()?.IsOpen ?? false;
 			if (IsConfiguring && !IsOpen) IsOpen = true;
+
+			var noMove = Flags & ImGuiWindowFlags.NoMove;
+			if ((IsConfiguring && noMove != 0) || (!IsConfiguring && noMove == 0))
+				Flags ^= ImGuiWindowFlags.NoMove;
 
 			var canOpen = Services.ClientState.IsLoggedIn;
 			ShouldHide = !canOpen;
