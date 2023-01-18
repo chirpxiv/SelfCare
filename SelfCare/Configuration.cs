@@ -37,8 +37,8 @@ namespace SelfCare {
 
 		// Alerts
 
-		public Alert Posture = new(FontAwesomeIcon.Chair, "Remember to check your posture!");
-		public Alert Hydrate = new(FontAwesomeIcon.GlassWhiskey, "Remember to hydrate!");
+		public Alert Posture = new(FontAwesomeIcon.Chair, "Remember to check your posture!"); // TOOD: 45m
+		public Alert Hydrate = new(FontAwesomeIcon.GlassWhiskey, "Remember to hydrate!"); // TODO: 1h
 
 		// Methods
 

@@ -1,4 +1,5 @@
-﻿using System.Timers;
+﻿using System;
+using System.Timers;
 
 using Dalamud.Interface;
 
@@ -26,6 +27,7 @@ namespace SelfCare.Alerts {
 		internal Timer Timer;
 		internal bool HasTimerElapsed = true;
 
+		internal DateTime VisibleSince;
 		public bool IsVisible = false;
 
 		// Constructor

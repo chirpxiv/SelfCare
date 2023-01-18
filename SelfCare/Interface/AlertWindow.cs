@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using ImGuiNET;
 
@@ -27,11 +28,13 @@ namespace SelfCare.Interface {
 			if (IsConfiguring && !IsOpen) IsOpen = true;
 
 			var canOpen = true;
+			// Disable in cutscene
 			canOpen &= !(SelfCare.Config.DisableInCutscene && (
 				Services.Condition[ConditionFlag.WatchingCutscene]
 				|| Services.Condition[ConditionFlag.OccupiedInCutSceneEvent]
 				|| Services.Condition[ConditionFlag.OccupiedInQuestEvent]
 			));
+			// Disable in combat
 			canOpen &= !(SelfCare.Config.DisableInCombat && Services.Condition[ConditionFlag.InCombat]);
 
 			if (!IsOpen && canOpen) {
@@ -60,18 +63,25 @@ namespace SelfCare.Interface {
 			for (var i = 0; i < Alerts.Count; i++) {
 				var alert = Alerts[i];
 
-				if (alert.HasTimerElapsed)
+				var visible = alert.IsVisible || IsConfiguring;
+
+				if (alert.HasTimerElapsed) {
+					visible = true; 
 					alert.IsVisible = true;
+					alert.VisibleSince = DateTime.Now;
+					alert.HasTimerElapsed = false;
+				} else if (!visible) continue;
+
+				if (SelfCare.Config.DismissMode == DismissMode.OnTimer)
+					shouldClose = (DateTime.Now - alert.VisibleSince).TotalMilliseconds >= SelfCare.Config.DismissTimer;
 
 				if (shouldClose) {
 					alert.IsVisible = false;
 					alert.RestartTimer();
 				}
 
-				if (alert.IsVisible || IsConfiguring) {
+				if (visible) {
 					active = true;
-
-					//DrawReminder(alert.Icon, alert.Text);
 
 					SelfCare.Config.FontColor.Draw(() => DrawReminder(alert.Icon, alert.Text));
 
@@ -99,8 +109,6 @@ namespace SelfCare.Interface {
 			ImGui.SameLine();
 
 			ImGui.Text(text);
-
-			//cfg.FontColor.Draw(() => ImGui.Text(text));
 		}
 	}
 }

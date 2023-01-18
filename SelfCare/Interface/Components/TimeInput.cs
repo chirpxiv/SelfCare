@@ -30,7 +30,7 @@ namespace SelfCare.Interface.Components {
 				result &= !ImGui.IsItemActive();
 
 			if (result)
-				val = ((hr * 3600) + (min * 60) + sec) * 1000;
+				val = Math.Max(0, ((hr * 3600) + (min * 60) + sec) * 1000);
 
 			return result;
 		}
