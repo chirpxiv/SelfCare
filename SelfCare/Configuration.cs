@@ -25,7 +25,7 @@ namespace SelfCare {
 		public SoundEffect SoundEffect = SoundEffect.Se9;
 
 		public DismissMode DismissMode = DismissMode.OnClick;
-		public ImGuiMouseButton DismissButton = ImGuiMouseButton.Right;
+		public ImGuiMouseButton DismissButton = ImGuiMouseButton.Left;
 		public uint DismissTimer = 10 * 1000; // Default: 10s
 
 		public bool DisableInCombat = true;
