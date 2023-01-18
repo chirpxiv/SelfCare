@@ -9,8 +9,6 @@ using Dalamud.Game.ClientState.Conditions;
 
 using SelfCare.Alerts;
 using SelfCare.Extensions;
-using Dalamud.Game.ClientState;
-using Dalamud.Logging;
 
 namespace SelfCare.Interface {
 	public class AlertWindow : Window {

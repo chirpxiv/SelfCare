@@ -1,5 +1,5 @@
 ﻿using System;
-using Dalamud.Logging;
+
 using ImGuiNET;
 
 namespace SelfCare.Interface.Components {
