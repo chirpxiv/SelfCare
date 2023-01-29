@@ -46,6 +46,8 @@ namespace SelfCare.Interface {
 
 			if (!IsOpen && canOpen) {
 				foreach (var alert in Alerts) {
+					if (!alert.Enabled) continue;
+
 					if (alert.HasTimerElapsed) {
 						IsOpen = true;
 						SoundAlert.PlayCurrent();
