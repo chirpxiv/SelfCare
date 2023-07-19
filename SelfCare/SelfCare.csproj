@@ -24,10 +24,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\.editorconfig" Link=".editorconfig" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="DalamudPackager" Version="2.1.10" />
     <Reference Include="FFXIVClientStructs">
       <HintPath>$(DalamudLibPath)FFXIVClientStructs.dll</HintPath>
@@ -47,4 +43,7 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Interface\Windows\" />
+  </ItemGroup>
 </Project>
