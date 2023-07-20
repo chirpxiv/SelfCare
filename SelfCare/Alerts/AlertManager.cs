@@ -78,7 +78,7 @@ public class AlertManager : ServiceBase {
 	
 	// Process queue on every framework tick.
 	private void OnFrameworkUpdate(Framework _) {
-		// Same as above.
+		// Same as above; avoid race conditions with timers elapsing as the queue is being processed.
 		lock (HandlerLock) {
 			var queue = ElapsedQueue.ToList();
 			queue.ForEach(t => TryDispatchTimer(t));

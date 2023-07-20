@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace SelfCare.Alerts; 
 
-public enum SoundEffect {
+public enum SoundEffect : uint {
 	None = 0,
 	Se1 = 37,
 	Se2 = 38,

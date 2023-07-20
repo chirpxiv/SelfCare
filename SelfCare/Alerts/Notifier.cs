@@ -37,7 +37,7 @@ internal class Notifier {
 
 	private void PlaySound(SoundEffect sfx) {
 		var timeNow = DateTime.Now;
-		if (LastPlayed != null && (timeNow - LastPlayed.Value).TotalSeconds < Config.SoundRepeatMin)
+		if (LastPlayed != null && (timeNow - LastPlayed.Value).TotalSeconds < Config.SoundRepeatWait)
 			return;
 
 		if (UIModule.PlaySound((uint)sfx, 0, 0, 0))

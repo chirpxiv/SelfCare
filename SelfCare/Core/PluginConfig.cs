@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Dalamud.Logging;
 using Dalamud.Configuration;
+using Dalamud.Interface;
 
 using SelfCare.Alerts;
 using SelfCare.Core.Legacy;
@@ -18,22 +19,25 @@ public class PluginConfig : IPluginConfiguration {
 	
 	public List<Reminder> Reminders = new();
 
-	public int SoundRepeatMin = 5; // Default: 5s
+	public int SoundRepeatWait = 5; // Default: 5s
 
 	// Methods for config creation, loading & saving
 
-	private const int HydrationTime = 60 * 60; // Default: 1h
 	private const int PostureTime = 30 * 60; // Default: 30m
+	private const int HydrationTime = 60 * 60; // Default: 1h
 
 	private static PluginConfig Create() {
 		var cfg = new PluginConfig();
-
-		cfg.Reminders.Add(new Reminder("Hydration", HydrationTime) {
-			Message = "Remember to hydrate!"
-		});
 		
-		cfg.Reminders.Add(new Reminder("Posture Check", PostureTime) {
-			Message = "Remember to check your posture!"
+		cfg.Reminders.AddRange(new[] {
+			new Reminder("Posture Check", PostureTime) {
+				Message = "Remember to check your posture!",
+				Icon = FontAwesomeIcon.Chair
+			},
+			new Reminder("Hydration Check", HydrationTime) {
+				Message = "Remember to hydrate!",
+				Icon = FontAwesomeIcon.GlassWhiskey
+			}
 		});
 
 		return cfg;
