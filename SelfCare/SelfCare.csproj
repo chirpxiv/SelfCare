@@ -42,8 +42,4 @@
       <Private>false</Private>
     </Reference>
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Interface\Windows\" />
-  </ItemGroup>
 </Project>

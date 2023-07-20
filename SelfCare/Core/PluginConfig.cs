@@ -1,16 +1,43 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Dalamud.Logging;
 using Dalamud.Configuration;
 
+using SelfCare.Alerts;
 using SelfCare.Core.Legacy;
 
 namespace SelfCare.Core;
 
 public class PluginConfig : IPluginConfiguration {
-	public int Version { get; set; } = 1;
+	// Base
 	
-	// Loading & saving methods
+	public int Version { get; set; } = 1;
+
+	// Alerts
+	
+	public List<Reminder> Reminders = new();
+
+	public int SoundRepeatMin = 5; // Default: 5s
+
+	// Methods for config creation, loading & saving
+
+	private const int HydrationTime = 60 * 60; // Default: 1h
+	private const int PostureTime = 30 * 60; // Default: 30m
+
+	private static PluginConfig Create() {
+		var cfg = new PluginConfig();
+
+		cfg.Reminders.Add(new Reminder("Hydration", HydrationTime) {
+			Message = "Remember to hydrate!"
+		});
+		
+		cfg.Reminders.Add(new Reminder("Posture Check", PostureTime) {
+			Message = "Remember to check your posture!"
+		});
+
+		return cfg;
+	}
 
 	public static PluginConfig Load() {
 		PluginConfig? cfg = null;
@@ -21,7 +48,7 @@ public class PluginConfig : IPluginConfiguration {
 			PluginLog.Information(cfgBase is null ? "No config found, creating new file" : $"Loading configuration (Version {cfgBase.Version})");
 			
 			cfg = cfgBase?.Version switch {
-				null => new PluginConfig(), // doesn't exist, create a new one
+				null => Create(), // doesn't exist, create a new one
 				0 => ConfigV0.Upgrade(cfgBase), // legacy config from v0.1
 				_ => cfgBase as PluginConfig // try to load as current version
 			};
@@ -31,7 +58,7 @@ public class PluginConfig : IPluginConfiguration {
 			PluginLog.Error($"Failed to load configuration:\n{err}");
 		} finally {
 			// fallback to a new one if loading fails
-			cfg ??= new PluginConfig();
+			cfg ??= Create();
 		}
 
 		return cfg;

@@ -1,5 +1,5 @@
-﻿using Dalamud.Configuration;
-using Dalamud.Logging;
+﻿using Dalamud.Logging;
+using Dalamud.Configuration;
 
 namespace SelfCare.Core.Legacy; 
 
