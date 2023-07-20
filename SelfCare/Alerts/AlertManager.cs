@@ -14,8 +14,6 @@ public class AlertManager : ServiceBase {
 	// Config access
 	
 	private readonly Notifier Notifier;
-	
-	private PluginConfig Config = null!;
 
 	// Constructor & initialization
 
@@ -23,12 +21,11 @@ public class AlertManager : ServiceBase {
 		Notifier = new Notifier(this);
 	}
 
-	public override void Init(SelfCare plugin) {
-		Config = plugin.PluginConfig;
-
-		Notifier.Subscribe(Config);
-
-		Config.Reminders.ForEach(r => Register(r));
+	public override void Init() {
+		var cfg = SelfCare.Instance.PluginConfig;
+		cfg.Reminders.ForEach(r => Register(r));
+		
+		Notifier.Subscribe(cfg);
 
 		Services.Framework.Update += OnFrameworkUpdate;
 
@@ -97,6 +94,7 @@ public class AlertManager : ServiceBase {
 		// Fire event and resume timer.
 		
 		try {
+			timer.DispatchedAt = DateTime.Now;
 			OnDispatch?.Invoke(timer);
 		} catch (Exception err) {
 			PluginLog.Error($"Error while dispatching timer ('{timer.Reminder.Name}'):\n{err}");
@@ -141,8 +139,9 @@ public class AlertManager : ServiceBase {
 	// Disposal
 
 	public override void Dispose() {
-		OnDispatch = null;
+		Notifier.Dispose();
 		
+		OnDispatch = null;
 		Services.Framework.Update -= OnFrameworkUpdate;
 
 		Timers.ForEach(t => t.Dispose());

@@ -4,9 +4,9 @@ using FFXIVClientStructs.FFXIV.Client.UI;
 
 using SelfCare.Core;
 
-namespace SelfCare.Alerts; 
+namespace SelfCare.Alerts;
 
-internal class Notifier {
+internal class Notifier : IDisposable {
 	private readonly AlertManager AlertManager;
 
 	private PluginConfig Config = null!;
@@ -43,4 +43,20 @@ internal class Notifier {
 		if (UIModule.PlaySound((uint)sfx, 0, 0, 0))
 			LastPlayed = timeNow;
 	}
+	
+	// Disposal
+
+	private bool IsDisposed;
+	
+	public void Dispose() {
+		if (IsDisposed) return;
+
+		AlertManager.OnDispatch -= OnDispatchHandler;
+		
+		IsDisposed = true;
+
+		GC.SuppressFinalize(this);
+	}
+
+	~Notifier() => Dispose();
 }

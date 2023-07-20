@@ -14,7 +14,7 @@ public class Reminder {
 	public FontAwesomeIcon Icon = FontAwesomeIcon.None;
 	
 	public uint WaitTime;
-	public uint DisplayTimer = 5;
+	public uint DismissTimer = 10;
 	
 	public string Message = string.Empty;
 
@@ -41,8 +41,8 @@ public enum ReminderType {
 	Default = Popup | Chat | Sound
 }
 
-// Conditions for the reminder to show under. The timer can be elapsed during this time,
-// but it should not be resumed or shown to the user until all conditions are met.
+// Conditions for the reminder to show under. The timer can be elapsed at any time,
+// but it should not be shown to the user or resumed until all conditions are met.
 
 [Flags]
 public enum ReminderCond {

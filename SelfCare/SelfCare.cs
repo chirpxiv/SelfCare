@@ -16,6 +16,8 @@ public sealed class SelfCare : IDalamudPlugin {
 	public string Name { get; init; } = "SelfCare";
 
 	// Internal services & config
+
+	internal static SelfCare Instance = null!;
 	
 	public readonly PluginConfig PluginConfig;
 
@@ -27,6 +29,8 @@ public sealed class SelfCare : IDalamudPlugin {
 	private readonly List<ServiceBase> Services = new();
 	
 	public SelfCare(DalamudPluginInterface api) {
+		Instance = this;
+		
 		Core.Services.Init(api);
 		
 		PluginConfig = PluginConfig.Load();
@@ -34,7 +38,7 @@ public sealed class SelfCare : IDalamudPlugin {
 		Interface = this.Create<PluginUi>();
 		AlertManager = this.Create<AlertManager>();
 
-		Services.ForEach(inst => inst.Init(this));
+		Services.ForEach(inst => inst.Init());
 	}
 
 	private T Create<T>() where T : ServiceBase, new() {
@@ -54,6 +58,8 @@ public sealed class SelfCare : IDalamudPlugin {
 
 		Services.ForEach(Dispose);
 		Services.Clear();
+
+		Instance = null!;
 	}
 
 	private void Dispose(IDisposable inst) {

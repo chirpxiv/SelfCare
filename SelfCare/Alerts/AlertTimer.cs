@@ -6,17 +6,15 @@ namespace SelfCare.Alerts;
 public delegate void OnTimerElapsed(AlertTimer sender);
 
 public class AlertTimer : IDisposable {
-	// Encapsulation
+	// Encapsulated classes
 	
 	public readonly Reminder Reminder;
 	
 	private readonly Timer Timer;
 	
 	// State
-
-	public bool Elapsed;
-
-	public DateTime? ElapsedAt;
+	
+	public DateTime? DispatchedAt;
 	
 	// Constructor
 
@@ -32,8 +30,6 @@ public class AlertTimer : IDisposable {
 	public event OnTimerElapsed? OnElapsed;
 
 	public void Start() {
-		Elapsed = false;
-		
 		Timer.Interval = Reminder.WaitTime * 1000;
 		Timer.Start();
 	}
@@ -46,10 +42,16 @@ public class AlertTimer : IDisposable {
 		if (!Timer.Enabled || IsDisposed || !Reminder.Enabled) return;
 		
 		// Update timer state and invoke event for the alert manager to handle.
-		Elapsed = true;
-		ElapsedAt = args.SignalTime;
 		OnElapsed?.Invoke(this);
 	}
+	
+	// Display
+	
+	public bool CanShow()
+		=> CanShow(DateTime.Now);
+
+	public bool CanShow(DateTime time)
+		=> DispatchedAt != null && time < DispatchedAt.Value.AddSeconds(Reminder.DismissTimer);
 
 	// Disposal
 

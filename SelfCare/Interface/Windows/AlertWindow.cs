@@ -1,6 +1,11 @@
-﻿using Dalamud.Interface.Windowing;
+﻿using System.Collections.Generic;
+
+using Dalamud.Interface;
+using Dalamud.Interface.Windowing;
 
 using ImGuiNET;
+
+using SelfCare.Alerts;
 
 namespace SelfCare.Interface.Windows; 
 
@@ -11,8 +16,52 @@ public class AlertWindow : Window {
 	) {
 		RespectCloseHotkey = false;
 	}
-
-	public override void PreDraw() { }
 	
-	public override void Draw() { }
+	// Alerts
+
+	private readonly List<AlertTimer> Alerts = new();
+
+	public void AddAlert(AlertTimer alert) {
+		if (Alerts.Contains(alert)) return;
+		Alerts.Add(alert);
+		IsOpen = true;
+	}
+	
+	// Draw UI
+
+	public override void PreDraw() {
+		// Remove alerts when their dismiss timers have ended.
+		Alerts.RemoveAll(alert => !alert.CanShow());
+		// And close the window if all alerts have been dismissed.
+		IsOpen = Alerts.Count > 0;
+	}
+
+	public override void Draw() {
+		// Iterates and displays each alert.
+		// Inserts spacing between alerts if there is more than one.
+		for (var i = 0; i < Alerts.Count; i++) {
+			if (i > 0) ImGui.Spacing();
+			DrawAlert(Alerts[i]);
+		}
+	}
+
+	private void DrawAlert(AlertTimer alert) {
+		// Displays the icon and message associated with the timer.
+		// Attempts to align them so that multiple alerts can display together in a consistent manner.
+		
+		var font = UiBuilder.IconFont;
+		ImGui.PushFont(font);
+
+		var icon = alert.Reminder.Icon.ToIconString();
+		
+		var start = font.FontSize;
+		ImGui.SetCursorPosX(start - ImGui.CalcTextSize(icon).X / 2);
+		
+		ImGui.Text(icon);
+		ImGui.PopFont();
+		
+		ImGui.SameLine();
+		ImGui.SetCursorPosX(start + ImGui.GetStyle().ItemSpacing.X * 2);
+		ImGui.Text(alert.Reminder.Message);
+	}
 }

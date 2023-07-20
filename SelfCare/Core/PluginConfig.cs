@@ -19,7 +19,7 @@ public class PluginConfig : IPluginConfiguration {
 	
 	public List<Reminder> Reminders = new();
 
-	public int SoundRepeatWait = 5; // Default: 5s
+	public int SoundRepeatWait = 10;
 
 	// Methods for config creation, loading & saving
 
