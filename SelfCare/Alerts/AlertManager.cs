@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 using Dalamud.Game;
 using Dalamud.Game.ClientState.Conditions;
@@ -47,7 +48,7 @@ public class AlertManager : ServiceBase {
 		Timers.Remove(alert);
 	}
 
-	private void StartAll() => Timers
+	private void StartAll() => GetEnabled()
 		.ForEach(t => t.Start());
 
 	private void StopAll() => Timers
@@ -57,6 +58,9 @@ public class AlertManager : ServiceBase {
 		.Where(t => t.Reminder.Enabled)
 		.ToList();
 
+	internal ReadOnlyCollection<AlertTimer> GetAll() => Timers
+		.AsReadOnly();
+	
 	// Elapsed timer handling
 	
 	private readonly object HandlerLock = new();
@@ -117,10 +121,6 @@ public class AlertManager : ServiceBase {
 			return true;
 		
 		var result = true;
-		
-		// Player must be in-game
-		if (cond.HasFlag(ReminderCond.IsInGame))
-			result &= Services.ClientState.IsLoggedIn;
 
 		// Player must not be in combat.
 		if (cond.HasFlag(ReminderCond.NotInCombat))

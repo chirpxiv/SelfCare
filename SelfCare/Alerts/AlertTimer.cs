@@ -12,6 +12,27 @@ public class AlertTimer : IDisposable {
 	
 	private readonly Timer Timer;
 	
+	// Wrappers
+
+	public bool Enabled {
+		get => Reminder.Enabled;
+		set {
+			Reminder.Enabled = value;
+			if (value)
+				Start();
+			else
+				Stop();
+		}
+	}
+
+	public uint WaitTime {
+		get => Reminder.WaitTime;
+		set {
+			Reminder.WaitTime = value;
+			Timer.Interval = value * 1000;
+		}
+	}
+	
 	// State
 	
 	public DateTime? DispatchedAt;
@@ -39,16 +60,21 @@ public class AlertTimer : IDisposable {
 	private void OnElapsedHandler(object? sender, ElapsedEventArgs args) {
 		// Elapsed event can be invoked while timer is stopped or disposed; ignore if this happens.
 		// Also ignore if the reminder has been disabled by user. Shouldn't happen but check just in case.
-		if (!Timer.Enabled || IsDisposed || !Reminder.Enabled) return;
+		if (IsDisposed || !Timer.Enabled || !Reminder.Enabled) return;
 		
 		// Update timer state and invoke event for the alert manager to handle.
 		OnElapsed?.Invoke(this);
 	}
 	
 	// Display
-	
-	public bool CanShow()
-		=> Reminder.Enabled && DispatchedAt != null && DateTime.Now < DispatchedAt.Value.AddSeconds(Reminder.DismissTimer);
+
+	public bool CanShow() => Reminder.Enabled && Reminder.Type.HasFlag(ReminderType.Popup) && Reminder.DismissType switch {
+		DismissType.AfterTime => IsDismissTicking(),
+		_ => true
+	};
+
+	private bool IsDismissTicking() => DispatchedAt is DateTime start
+		&& DateTime.Now < start.AddSeconds(Reminder.DismissTimer);
 
 	// Disposal
 

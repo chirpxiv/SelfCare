@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
+using FFXIVClientStructs.FFXIV.Client.UI;
+
 namespace SelfCare.Alerts;
 
 public enum SoundEffect : uint {
@@ -22,11 +24,15 @@ public enum SoundEffect : uint {
 	Se15 = 51,
 	Se16 = 52,
 	IncomingMail = 59,
-	Enmity = 60,
 	DutyPop = 67,
 	LimitBreak = 70,
 	
 	Default = Se9
+}
+
+public static class SoundEffectExt {
+	public static bool Play(this SoundEffect vfx)
+		=> UIModule.PlaySound((uint)vfx, 0, 0, 0);
 }
 
 public class SoundNameDict {

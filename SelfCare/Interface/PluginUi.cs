@@ -41,7 +41,8 @@ public class PluginUi : ServiceBase {
 	// Open alert window on timer dispatch
 
 	private void OnDispatchHandler(AlertTimer timer) {
-		AlertWindow.AddAlert(timer);
+		if (timer.Reminder.Type.HasFlag(ReminderType.Popup))
+			AlertWindow.AddAlert(timer);
 	}
 	
 	// Disposal

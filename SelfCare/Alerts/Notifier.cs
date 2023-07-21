@@ -1,7 +1,5 @@
 ﻿using System;
 
-using FFXIVClientStructs.FFXIV.Client.UI;
-
 using SelfCare.Core;
 
 namespace SelfCare.Alerts;
@@ -36,7 +34,7 @@ internal class Notifier : IDisposable {
 		if (LastPlayed != null && (timeNow - LastPlayed.Value).TotalSeconds < SelfCare.Config.SoundRepeatWait)
 			return;
 
-		if (UIModule.PlaySound((uint)sfx, 0, 0, 0))
+		if (sfx.Play())
 			LastPlayed = timeNow;
 	}
 	

@@ -6,7 +6,7 @@ using ImGuiNET;
 
 namespace SelfCare.Alerts;
 
-public class Reminder {
+public class Reminder{
 	// Config properties
 	
 	public bool Enabled;
@@ -62,11 +62,10 @@ public enum ReminderType {
 [Flags]
 public enum ReminderCond {
 	None          = 0x0,
-	IsInGame      = 0x1,
-	NotInCombat   = 0x2,
-	NotInCutscene = 0x4,
-	IsUiVisible   = 0x8,
-	Default = IsInGame | NotInCombat | NotInCutscene
+	NotInCombat   = 0x1,
+	NotInCutscene = 0x2,
+	IsUiVisible   = 0x4,
+	Default = NotInCombat | NotInCutscene
 }
 
 // Dismissal method.

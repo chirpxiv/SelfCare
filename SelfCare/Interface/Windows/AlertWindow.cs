@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
+using System.Collections.Generic;
 
 using Dalamud.Interface;
 using Dalamud.Interface.Windowing;
@@ -31,7 +32,15 @@ public class AlertWindow : Window {
 		Alerts.Add(alert);
 		IsOpen = true;
 	}
-	
+
+	private IEnumerable<AlertTimer> GetAlerts() {
+		if (!IsConfigOpen)
+			return Alerts;
+		
+		return Services.Alerts.GetEnabled()
+			.Where(t => t.Reminder.Type.HasFlag(ReminderType.Popup));
+	}
+
 	// Check whether the window should be open this frame.
 
 	public override void PreOpenCheck() {
@@ -49,34 +58,41 @@ public class AlertWindow : Window {
 	}
 
 	public override void Draw() {
-		var alerts = IsConfigOpen ? Services.Alerts.GetEnabled() : Alerts;
+		var alerts = GetAlerts();
 
 		// Iterates over and displays each alert.
 		// Inserts spacing between alerts if there is more than one.
-		for (var i = 0; i < alerts.Count; i++) {
-			if (i > 0) ImGui.Spacing();
-			DrawAlert(alerts[i]);
+		var i = 0;
+		foreach (var alert in alerts) {
+			if (i++ > 0)
+				ImGui.Spacing();
+			DrawReminder(alert.Reminder);
 		}
+
+		if (i == 0) DrawMessage(FontAwesomeIcon.Shrimp, "Pop-up messages will appear here when enabled.");
 	}
 
-	private void DrawAlert(AlertTimer alert) {
+	private void DrawReminder(Reminder item)
+		=> DrawMessage(item.Icon, item.Message);
+
+	private void DrawMessage(FontAwesomeIcon icon, string message) {
 		// Displays the icon and message associated with the timer.
 		// Attempts to align them so that multiple alerts can display together in a consistent manner.
 		
 		var font = UiBuilder.IconFont;
 		ImGui.PushFont(font);
 
-		var icon = alert.Reminder.Icon.ToIconString();
+		var str = icon.ToIconString();
 		
 		var start = font.FontSize;
-		ImGui.SetCursorPosX(start - ImGui.CalcTextSize(icon).X / 2);
+		ImGui.SetCursorPosX(start - ImGui.CalcTextSize(str).X / 2);
 		
-		ImGui.Text(icon);
+		ImGui.Text(str);
 		ImGui.PopFont();
 		
 		ImGui.SameLine();
 		ImGui.SetCursorPosX(start + ImGui.GetStyle().ItemSpacing.X * 2);
-		ImGui.Text(alert.Reminder.Message);
+		ImGui.Text(message);
 	}
 	
 	// Code to run after window is done drawing.
