@@ -17,12 +17,12 @@ public class AlertWindow : Window {
 	
 	public AlertWindow() : base(
 		"SelfCare Alert",
-		ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoDecoration
+		ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoDecoration | ImGuiWindowFlags.NoMove
 	) {
 		RespectCloseHotkey = false;
 	}
 	
-	// Alerts to display. PluginUi adds these when a timer is dispatched.
+	// Alerts to display. PluginUi pushes onto this when a timer is dispatched.
 
 	private readonly List<AlertTimer> Alerts = new();
 
@@ -41,10 +41,17 @@ public class AlertWindow : Window {
 	
 	// Draw UI
 
-	public override void Draw() {
-		var alerts = IsConfigOpen ? Services.Alerts.GetAll() : Alerts.AsReadOnly();
+	public override void PreDraw() {
+		if (IsConfigOpen)
+			Flags &= ~ImGuiWindowFlags.NoMove;
+		else
+			Flags |= ImGuiWindowFlags.NoMove;
+	}
 
-		// Iterates and displays each alert.
+	public override void Draw() {
+		var alerts = IsConfigOpen ? Services.Alerts.GetEnabled() : Alerts;
+
+		// Iterates over and displays each alert.
 		// Inserts spacing between alerts if there is more than one.
 		for (var i = 0; i < alerts.Count; i++) {
 			if (i > 0) ImGui.Spacing();
@@ -72,7 +79,7 @@ public class AlertWindow : Window {
 		ImGui.Text(alert.Reminder.Message);
 	}
 	
-	// Code run after window finishes drawing.
+	// Code to run after window is done drawing.
 
 	public override void PostDraw() {
 		// Remove alerts when their dismiss timers have ended.
