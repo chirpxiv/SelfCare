@@ -6,11 +6,12 @@ using Dalamud.Interface.Windowing;
 using ImGuiNET;
 
 using SelfCare.Alerts;
+using SelfCare.Core;
 
 namespace SelfCare.Interface.Windows;
 
 public class AlertWindow : Window {
-	private bool IsConfigOpen => SelfCare.Instance.Interface.IsConfigOpen;
+	private bool IsConfigOpen => Services.Interface.IsConfigOpen;
 	
 	// Window constructor
 	
@@ -41,7 +42,7 @@ public class AlertWindow : Window {
 	// Draw UI
 
 	public override void Draw() {
-		var alerts = IsConfigOpen ? SelfCare.Instance.Alerts.GetAll() : Alerts.AsReadOnly();
+		var alerts = IsConfigOpen ? Services.Alerts.GetAll() : Alerts.AsReadOnly();
 
 		// Iterates and displays each alert.
 		// Inserts spacing between alerts if there is more than one.

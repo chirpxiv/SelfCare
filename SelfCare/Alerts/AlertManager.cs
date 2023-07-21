@@ -23,10 +23,9 @@ public class AlertManager : ServiceBase {
 	}
 
 	public override void Init() {
-		var cfg = SelfCare.Instance.PluginConfig;
-		cfg.Reminders.ForEach(r => Register(r));
+		SelfCare.Config.Reminders.ForEach(r => Register(r));
 		
-		Notifier.Subscribe(cfg);
+		Notifier.Subscribe();
 
 		Services.Framework.Update += OnFrameworkUpdate;
 

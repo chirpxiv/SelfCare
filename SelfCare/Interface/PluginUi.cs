@@ -35,7 +35,7 @@ public class PluginUi : ServiceBase {
 		Services.PluginApi.UiBuilder.DisableGposeUiHide = true;
 		Services.PluginApi.UiBuilder.Draw += Windows.Draw;
 
-		SelfCare.Instance.Alerts.OnDispatch += OnDispatchHandler;
+		Services.Alerts.OnDispatch += OnDispatchHandler;
 	}
 	
 	// Open alert window on timer dispatch
@@ -50,6 +50,6 @@ public class PluginUi : ServiceBase {
 		Windows.RemoveAllWindows();
 		Services.PluginApi.UiBuilder.Draw -= Windows.Draw;
 
-		SelfCare.Instance.Alerts.OnDispatch -= OnDispatchHandler;
+		Services.Alerts.OnDispatch -= OnDispatchHandler;
 	}
 }

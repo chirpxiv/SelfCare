@@ -9,17 +9,13 @@ namespace SelfCare.Alerts;
 internal class Notifier : IDisposable {
 	private readonly AlertManager AlertManager;
 
-	private PluginConfig Config = null!;
-	
 	internal Notifier(AlertManager manager)
 		=> AlertManager = manager;
 
 	// Dispatch handler
 
-	internal void Subscribe(PluginConfig cfg) {
-		Config = cfg;
-		AlertManager.OnDispatch += OnDispatchHandler;
-	}
+	internal void Subscribe()
+		=> AlertManager.OnDispatch += OnDispatchHandler;
 
 	private void OnDispatchHandler(AlertTimer timer) {
 		var type = timer.Reminder.Type;
@@ -37,7 +33,7 @@ internal class Notifier : IDisposable {
 
 	private void PlaySound(SoundEffect sfx) {
 		var timeNow = DateTime.Now;
-		if (LastPlayed != null && (timeNow - LastPlayed.Value).TotalSeconds < Config.SoundRepeatWait)
+		if (LastPlayed != null && (timeNow - LastPlayed.Value).TotalSeconds < SelfCare.Config.SoundRepeatWait)
 			return;
 
 		if (UIModule.PlaySound((uint)sfx, 0, 0, 0))

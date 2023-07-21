@@ -21,20 +21,19 @@ public class PluginConfig : IPluginConfiguration {
 
 	public int SoundRepeatWait = 10;
 
-	// Methods for config creation, loading & saving
-
-	private const int PostureTime = 30 * 60; // Default: 30m
-	private const int HydrationTime = 60 * 60; // Default: 1h
+	// Methods for reading and writing config.
 
 	private static PluginConfig Create() {
 		var cfg = new PluginConfig();
 		
 		cfg.Reminders.AddRange(new[] {
-			new Reminder("Posture Check", PostureTime) {
+			// Default: 30m
+			new Reminder("Posture Check", 30 * 60) {
 				Message = "Remember to check your posture!",
 				Icon = FontAwesomeIcon.Chair
 			},
-			new Reminder("Hydration Check", HydrationTime) {
+			// Default: 1h
+			new Reminder("Hydration Check", 60 * 60) {
 				Message = "Remember to hydrate!",
 				Icon = FontAwesomeIcon.GlassWhiskey
 			}

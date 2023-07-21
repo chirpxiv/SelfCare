@@ -9,7 +9,7 @@ namespace SelfCare.Interface;
 public class Commands : ServiceBase {
 	private const string CommandName = "/selfcare";
 
-	private Action ToggleConfig => SelfCare.Instance.Interface.ConfigWindow.Toggle;
+	private Action ToggleConfig => Services.Interface.ConfigWindow.Toggle;
 	
 	// Initialization
 
