@@ -2,6 +2,8 @@
 
 using Dalamud.Interface;
 
+using ImGuiNET;
+
 namespace SelfCare.Alerts;
 
 public class Reminder {
@@ -9,20 +11,33 @@ public class Reminder {
 	
 	public bool Enabled;
 
+	// Timer
+	
+	public uint WaitTime;
+	
+	public ReminderType Type = ReminderType.Default;
+	public ReminderCond Condition = ReminderCond.Default;
+	
+	public SoundEffect SoundEffect = SoundEffect.Default;
+	
+	// Display
+	
 	public string Name;
 
 	public FontAwesomeIcon Icon = FontAwesomeIcon.None;
 	
-	public uint WaitTime;
-	public uint DismissTimer = 10;
-	
 	public string Message = string.Empty;
 
-	public SoundEffect SoundEffect = SoundEffect.Default;
+	// Dismissal
 
-	public ReminderType Type = ReminderType.Default;
-	public ReminderCond Condition = ReminderCond.Default;
+	public DismissType DismissType = DismissType.AfterTime;
 
+	public ImGuiMouseButton DismissButton = ImGuiMouseButton.Left;
+	
+	public uint DismissTimer = 10;
+
+	// Constructor
+	
 	public Reminder(string name, uint timer) {
 		Enabled = true;
 		Name = name;
@@ -46,10 +61,17 @@ public enum ReminderType {
 
 [Flags]
 public enum ReminderCond {
-	None       = 0x0,
-	IsInGame   = 0x1,
+	None          = 0x0,
+	IsInGame      = 0x1,
 	NotInCombat   = 0x2,
 	NotInCutscene = 0x4,
-	IsUiVisible  = 0x8,
+	IsUiVisible   = 0x8,
 	Default = IsInGame | NotInCombat | NotInCutscene
+}
+
+// Dismissal method.
+
+public enum DismissType {
+	OnClick,
+	AfterTime
 }

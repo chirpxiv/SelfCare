@@ -17,7 +17,7 @@ public class AlertWindow : Window {
 		RespectCloseHotkey = false;
 	}
 	
-	// Alerts
+	// Alerts to display. PluginUi adds these when a timer is dispatched.
 
 	private readonly List<AlertTimer> Alerts = new();
 
@@ -27,14 +27,14 @@ public class AlertWindow : Window {
 		IsOpen = true;
 	}
 	
-	// Draw UI
+	// Check whether the window should be open this frame.
 
-	public override void PreDraw() {
-		// Remove alerts when their dismiss timers have ended.
-		Alerts.RemoveAll(alert => !alert.CanShow());
-		// And close the window if all alerts have been dismissed.
+	public override void PreOpenCheck() {
+		// Close the window if all alerts have been dismissed.
 		IsOpen = Alerts.Count > 0;
 	}
+	
+	// Draw UI
 
 	public override void Draw() {
 		// Iterates and displays each alert.
@@ -63,5 +63,12 @@ public class AlertWindow : Window {
 		ImGui.SameLine();
 		ImGui.SetCursorPosX(start + ImGui.GetStyle().ItemSpacing.X * 2);
 		ImGui.Text(alert.Reminder.Message);
+	}
+	
+	// Code run after window finishes drawing.
+
+	public override void PostDraw() {
+		// Remove alerts when their dismiss timers have ended.
+		Alerts.RemoveAll(alert => !alert.CanShow());
 	}
 }
