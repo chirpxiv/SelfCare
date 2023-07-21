@@ -6,7 +6,7 @@ using Dalamud.Game.Command;
 using Dalamud.Game.ClientState;
 using Dalamud.Game.ClientState.Conditions;
 
-namespace SelfCare.Core; 
+namespace SelfCare.Core;
 
 internal class Services {
 	// Dalamud plugin services

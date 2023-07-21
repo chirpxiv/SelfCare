@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using Dalamud.Logging;
 using Dalamud.Plugin;
 
-using SelfCare.Core;
 using SelfCare.Alerts;
+using SelfCare.Core;
 using SelfCare.Interface;
 
-namespace SelfCare; 
+namespace SelfCare;
 
 public sealed class SelfCare : IDalamudPlugin {
 	// Plugin info
@@ -21,8 +21,9 @@ public sealed class SelfCare : IDalamudPlugin {
 	
 	public readonly PluginConfig PluginConfig;
 
+	public readonly AlertManager Alerts;
 	public readonly PluginUi Interface;
-	public readonly AlertManager AlertManager;
+	public readonly Commands Commands;
 
 	// Constructor called on plugin load
 	
@@ -31,12 +32,13 @@ public sealed class SelfCare : IDalamudPlugin {
 	public SelfCare(DalamudPluginInterface api) {
 		Instance = this;
 		
-		Core.Services.Init(api);
+		global::SelfCare.Core.Services.Init(api);
 		
 		PluginConfig = PluginConfig.Load();
 
+		Alerts = this.Create<AlertManager>();
 		Interface = this.Create<PluginUi>();
-		AlertManager = this.Create<AlertManager>();
+		Commands = this.Create<Commands>();
 
 		Services.ForEach(inst => inst.Init());
 	}

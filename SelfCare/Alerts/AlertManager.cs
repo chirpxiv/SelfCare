@@ -8,7 +8,7 @@ using Dalamud.Logging;
 
 using SelfCare.Core;
 
-namespace SelfCare.Alerts; 
+namespace SelfCare.Alerts;
 
 public class AlertManager : ServiceBase {
 	// Config access

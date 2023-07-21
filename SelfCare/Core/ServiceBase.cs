@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SelfCare.Core; 
+namespace SelfCare.Core;
 
 public abstract class ServiceBase : IDisposable {
 	public abstract void Init();

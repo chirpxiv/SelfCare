@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace SelfCare.Alerts; 
+namespace SelfCare.Alerts;
 
 public enum SoundEffect : uint {
 	None = 0,

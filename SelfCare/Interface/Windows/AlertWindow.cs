@@ -7,7 +7,7 @@ using ImGuiNET;
 
 using SelfCare.Alerts;
 
-namespace SelfCare.Interface.Windows; 
+namespace SelfCare.Interface.Windows;
 
 public class AlertWindow : Window {
 	public AlertWindow() : base(

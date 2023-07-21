@@ -4,7 +4,7 @@ using SelfCare.Core;
 using SelfCare.Alerts;
 using SelfCare.Interface.Windows;
 
-namespace SelfCare.Interface; 
+namespace SelfCare.Interface;
 
 public class PluginUi : ServiceBase {
 	// Window manager
@@ -31,7 +31,7 @@ public class PluginUi : ServiceBase {
 		Services.PluginApi.UiBuilder.DisableGposeUiHide = true;
 		Services.PluginApi.UiBuilder.Draw += Windows.Draw;
 
-		SelfCare.Instance.AlertManager.OnDispatch += OnDispatchHandler;
+		SelfCare.Instance.Alerts.OnDispatch += OnDispatchHandler;
 	}
 	
 	// Open alert window on timer dispatch
@@ -46,6 +46,6 @@ public class PluginUi : ServiceBase {
 		Windows.RemoveAllWindows();
 		Services.PluginApi.UiBuilder.Draw -= Windows.Draw;
 
-		SelfCare.Instance.AlertManager.OnDispatch -= OnDispatchHandler;
+		SelfCare.Instance.Alerts.OnDispatch -= OnDispatchHandler;
 	}
 }

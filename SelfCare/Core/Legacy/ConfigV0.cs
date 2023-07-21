@@ -1,7 +1,7 @@
 ﻿using Dalamud.Logging;
 using Dalamud.Configuration;
 
-namespace SelfCare.Core.Legacy; 
+namespace SelfCare.Core.Legacy;
 
 public class ConfigV0 : IPluginConfiguration {
 	// Version info
