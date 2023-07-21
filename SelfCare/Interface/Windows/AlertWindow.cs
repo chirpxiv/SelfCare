@@ -10,6 +10,10 @@ using SelfCare.Alerts;
 namespace SelfCare.Interface.Windows;
 
 public class AlertWindow : Window {
+	private bool IsConfigOpen => SelfCare.Instance.Interface.IsConfigOpen;
+	
+	// Window constructor
+	
 	public AlertWindow() : base(
 		"SelfCare Alert",
 		ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoDecoration
@@ -31,17 +35,19 @@ public class AlertWindow : Window {
 
 	public override void PreOpenCheck() {
 		// Close the window if all alerts have been dismissed.
-		IsOpen = Alerts.Count > 0;
+		IsOpen = Alerts.Count > 0 || IsConfigOpen;
 	}
 	
 	// Draw UI
 
 	public override void Draw() {
+		var alerts = IsConfigOpen ? SelfCare.Instance.Alerts.GetAll() : Alerts.AsReadOnly();
+
 		// Iterates and displays each alert.
 		// Inserts spacing between alerts if there is more than one.
-		for (var i = 0; i < Alerts.Count; i++) {
+		for (var i = 0; i < alerts.Count; i++) {
 			if (i > 0) ImGui.Spacing();
-			DrawAlert(Alerts[i]);
+			DrawAlert(alerts[i]);
 		}
 	}
 

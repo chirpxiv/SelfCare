@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 using Dalamud.Game;
 using Dalamud.Game.ClientState.Conditions;
@@ -53,7 +54,9 @@ public class AlertManager : ServiceBase {
 
 	private void StopAll() => Timers
 		.ForEach(t => t.Stop());
-	
+
+	internal ReadOnlyCollection<AlertTimer> GetAll() => Timers.AsReadOnly();
+
 	// Elapsed timer handling
 	
 	private readonly object HandlerLock = new();

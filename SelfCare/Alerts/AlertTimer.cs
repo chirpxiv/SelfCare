@@ -48,10 +48,7 @@ public class AlertTimer : IDisposable {
 	// Display
 	
 	public bool CanShow()
-		=> CanShow(DateTime.Now);
-
-	public bool CanShow(DateTime time)
-		=> DispatchedAt != null && time < DispatchedAt.Value.AddSeconds(Reminder.DismissTimer);
+		=> Reminder.Enabled && DispatchedAt != null && DateTime.Now < DispatchedAt.Value.AddSeconds(Reminder.DismissTimer);
 
 	// Disposal
 

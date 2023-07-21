@@ -7,11 +7,14 @@ using SelfCare.Interface.Windows;
 namespace SelfCare.Interface;
 
 public class PluginUi : ServiceBase {
-	// Window manager
+	// Window management
 	
 	private readonly WindowSystem Windows;
 
 	internal readonly AlertWindow AlertWindow;
+	internal readonly ConfigWindow ConfigWindow;
+
+	public bool IsConfigOpen => ConfigWindow.IsOpen;
 
 	// Constructor & initialization
 	
@@ -19,6 +22,7 @@ public class PluginUi : ServiceBase {
 		Windows = new WindowSystem("SelfCare");
 
 		AlertWindow = this.Add<AlertWindow>();
+		ConfigWindow = this.Add<ConfigWindow>();
 	}
 
 	private T Add<T>() where T : Window, new() {
