@@ -3,7 +3,6 @@ using System.Numerics;
 
 using ImGuiNET;
 
-using Dalamud.Logging;
 using Dalamud.Interface;
 using Dalamud.Configuration;
 
@@ -53,7 +52,7 @@ namespace SelfCare {
 				PluginVersion = curVer;
 			}
 
-			PluginLog.Information($"Init {IsFirstTime}");
+			Services.Log.Debug($"Init {IsFirstTime}");
 
 			_IsFirstTime_ = IsFirstTime;
 			if (IsFirstTime)
@@ -63,7 +62,7 @@ namespace SelfCare {
 		public void Save() => Services.Interface.SavePluginConfig(this);
 
 		private void Upgrade() {
-			PluginLog.Warning(string.Format(
+			Services.Log.Warning(string.Format(
 				"Upgrading config version from {0} to {1}.\nThis is nothing to worry about, but some settings may change or reset!",
 				Version, _ConfigVer
 			));
@@ -75,7 +74,7 @@ namespace SelfCare {
 			try {
 				SelfCare.Config = Services.Interface.GetPluginConfig() as Configuration ?? new();
 			} catch (Exception e) {
-				PluginLog.Error("Failed to load config. Settings have been reset.", e);
+				Services.Log.Error("Failed to load config. Settings have been reset.", e);
 				SelfCare.Config = new();
 			}
 			SelfCare.Config.Init();
