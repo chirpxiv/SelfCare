@@ -4,10 +4,10 @@
 	"Punchline": "Remember to check your posture!",
 	"Description": "Configurable reminders to hydrate and maintain a healthy posture.",
 	"InternalName": "SelfCare",
-	"AssemblyVersion": "0.1.0.0",
+	"AssemblyVersion": "0.1.1",
 	"RepoUrl": "https://github.com/chirpxiv/SelfCare",
 	"ApplicableVersion": "any",
-	"DalamudApiLevel": 8,
+	"DalamudApiLevel": 9,
 	"Tags": [
 		"SelfCare",
 		"posture",
