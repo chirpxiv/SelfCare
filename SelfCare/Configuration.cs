@@ -39,6 +39,7 @@ namespace SelfCare {
 
 		public Alert Hydrate = new(FontAwesomeIcon.GlassWhiskey, "Remember to hydrate!", 60 * 60 * 1000); // Default: 1h
 		public Alert Posture = new(FontAwesomeIcon.Chair, "Remember to check your posture!", 30 * 60 * 1000); // Default: 30m
+		public Alert Break = new(FontAwesomeIcon.Bed, "It's time to take a break!", 140 * 60 * 1000); // Default: 2h20m real time (48 hours Eorzea time)
 
 		// Methods
 
