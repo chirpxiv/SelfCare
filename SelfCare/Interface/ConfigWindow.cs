@@ -172,7 +172,9 @@ namespace SelfCare.Interface {
 			DrawReminder("Hydration", ref Config.Hydrate);
 			ImGuiExtensions.Spacing(2);
 			DrawReminder("Posture Check", ref Config.Posture);
-		}
+            ImGuiExtensions.Spacing(2);
+            DrawReminder("Break Reminder", ref Config.Break);
+        }
 
 		private void DrawReminder(string label, ref Alert alert) {
 			ImGui.Text(label);

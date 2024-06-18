@@ -12,7 +12,7 @@ using SelfCare.Extensions;
 
 namespace SelfCare.Interface {
 	public class AlertWindow : Window {
-		internal List<Alert> Alerts = new() { SelfCare.Config.Hydrate, SelfCare.Config.Posture }; // TODO: Streamline this
+		internal List<Alert> Alerts = new() { SelfCare.Config.Hydrate, SelfCare.Config.Posture, SelfCare.Config.Break }; // TODO: Streamline this
 
 		private bool ShouldHide = false;
 		private bool IsConfiguring = false;
