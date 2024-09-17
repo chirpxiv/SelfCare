@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
+using FFXIVClientStructs.FFXIV.Client.UI;
 
 namespace SelfCare.Alerts {
 	public enum SoundEffect {
@@ -30,9 +30,6 @@ namespace SelfCare.Alerts {
 	}
 
 	public static class SoundAlert {
-		internal delegate IntPtr PlaySoundDelegate(SoundEffect id, IntPtr a2, IntPtr a3);
-		internal static PlaySoundDelegate Invoke = null!;
-
 		// SoundEffect => Name
 
 		public static Dictionary<SoundEffect, string> EffectToName = new() {
@@ -57,16 +54,6 @@ namespace SelfCare.Alerts {
 			{ SoundEffect.LimitBreak, "Limit Break" }
 		};
 
-		// Init
-
-		public static void Init() {
-			// Thanks Ottermandias -
-			// https://github.com/Ottermandias/GatherBuddy/blob/main/GatherBuddy/SeFunctions/PlaySound.cs
-
-			var soundAddr = Services.SigScanner.ScanText("E8 ?? ?? ?? ?? 4D 39 BE");
-			Invoke = Marshal.GetDelegateForFunctionPointer<PlaySoundDelegate>(soundAddr);
-		}
-
 		// Methods
 
 		public static string GetName(SoundEffect sound)
@@ -75,7 +62,7 @@ namespace SelfCare.Alerts {
 		public static void PlayCurrent() {
 			var sfx = SelfCare.Config.SoundEffect;
 			if (sfx != SoundEffect.None)
-				Invoke(sfx, 0, 0);
+				UIModule.PlaySound((uint)sfx);
 		}
 	}
 }
