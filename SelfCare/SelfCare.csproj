@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Authors>Chirp</Authors>
-    <Version>0.1.1</Version>
+    <Version>0.2.0</Version>
     <Copyright>MIT License</Copyright>
     <PackageProjectUrl>https://github.com/chirpxiv/SelfCare</PackageProjectUrl>
   </PropertyGroup>
