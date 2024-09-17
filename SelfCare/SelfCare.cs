@@ -18,10 +18,8 @@ namespace SelfCare {
 
 		public static Configuration Config { get; internal set; } = null!;
 
-		public SelfCare(DalamudPluginInterface dalamud) {
+		public SelfCare(IDalamudPluginInterface dalamud) {
 			Services.Init(dalamud);
-
-			Alerts.SoundAlert.Init();
 
 			Configuration.LoadConfig();
 
