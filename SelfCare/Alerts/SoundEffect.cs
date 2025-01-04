@@ -62,7 +62,7 @@ namespace SelfCare.Alerts {
 		public static void PlayCurrent() {
 			var sfx = SelfCare.Config.SoundEffect;
 			if (sfx != SoundEffect.None)
-				UIModule.PlaySound((uint)sfx);
+				UIGlobals.PlaySoundEffect((uint)sfx);
 		}
 	}
 }

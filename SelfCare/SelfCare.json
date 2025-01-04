@@ -7,7 +7,7 @@
 	"AssemblyVersion": "0.2.0",
 	"RepoUrl": "https://github.com/chirpxiv/SelfCare",
 	"ApplicableVersion": "any",
-	"DalamudApiLevel": 10,
+	"DalamudApiLevel": 11,
 	"Tags": [
 		"SelfCare",
 		"posture",
