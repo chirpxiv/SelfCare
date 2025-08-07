@@ -1,4 +1,4 @@
-﻿using ImGuiNET;
+﻿using Dalamud.Bindings.ImGui;
 
 namespace SelfCare.Extensions {
 	public static class ImGuiExtensions {

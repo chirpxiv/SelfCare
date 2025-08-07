@@ -1,6 +1,6 @@
 ﻿using System;
 
-using ImGuiNET;
+using Dalamud.Bindings.ImGui;
 
 namespace SelfCare.Interface.Components {
 	public static class TimeInput {
