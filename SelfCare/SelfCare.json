@@ -6,7 +6,7 @@
 	"InternalName": "SelfCare",
 	"RepoUrl": "https://github.com/chirpxiv/SelfCare",
 	"ApplicableVersion": "any",
-	"DalamudApiLevel": 13,
+	"DalamudApiLevel": 14,
 	"Tags": [
 		"SelfCare",
 		"posture",
