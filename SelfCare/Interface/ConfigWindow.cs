@@ -109,6 +109,10 @@ namespace SelfCare.Interface {
 
 			ImGui.Checkbox("Disabled in combat", ref Config.DisableInCombat);
 
+			ImGui.Spacing();
+
+			ImGui.Checkbox("Don't steal focus when alert appears", ref Config.NoFocusOnAppearing);
+
 			// Print to chat
 
 			ImGui.Spacing();

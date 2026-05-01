@@ -32,6 +32,10 @@ namespace SelfCare.Interface {
 			if ((IsConfiguring && noMove != 0) || (!IsConfiguring && noMove == 0))
 				Flags ^= ImGuiWindowFlags.NoMove;
 
+			var noFocus = Flags & ImGuiWindowFlags.NoFocusOnAppearing;
+			if ((SelfCare.Config.NoFocusOnAppearing && noFocus == 0) || (!SelfCare.Config.NoFocusOnAppearing && noFocus != 0))
+				Flags ^= ImGuiWindowFlags.NoFocusOnAppearing;
+
 			var canOpen = Services.ClientState.IsLoggedIn;
 			ShouldHide = !canOpen;
 

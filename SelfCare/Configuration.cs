@@ -30,6 +30,8 @@ namespace SelfCare {
 		public bool DisableInCombat = true;
 		public bool DisableInCutscene = true;
 
+		public bool NoFocusOnAppearing = true;
+
 		public bool PrintToChat = true;
 
 		public UiColor BgColor = new(ImGuiCol.WindowBg);
