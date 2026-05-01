@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Dalamud.NET.Sdk/14.0.1">
+<Project Sdk="Dalamud.NET.Sdk/15.0.0">
   <PropertyGroup>
     <Authors>Chirp, maintained by Khayle</Authors>
-    <Version>0.2.4</Version>
+    <Version>0.2.15.0</Version>
     <Copyright>MIT License</Copyright>
     <PackageProjectUrl>https://github.com/chirpxiv/SelfCare</PackageProjectUrl>
   </PropertyGroup>

@@ -59,7 +59,7 @@ namespace SelfCare.Alerts {
 		public static string GetName(SoundEffect sound)
 			=> EffectToName.TryGetValue(sound, out var name) ? name : sound.ToString();
 
-		public static void PlayCurrent() {
+		public unsafe static void PlayCurrent() {
 			var sfx = SelfCare.Config.SoundEffect;
 			if (sfx != SoundEffect.None)
 				UIGlobals.PlaySoundEffect((uint)sfx);
